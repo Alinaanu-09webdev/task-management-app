@@ -1,0 +1,427 @@
+/* ==========================================================================
+   Design tokens
+   A "daily ledger" theme: paper background, ink typography, a hand-stamped
+   red mark for completed entries. Fraunces for display, Inter for UI text,
+   IBM Plex Mono for the numeric tallies.
+   ========================================================================== */
+:root {
+  --paper: #f5f6f3;
+  --surface: #ffffff;
+  --ink: #1f2421;
+  --ink-muted: #6b756b;
+  --ink-faint: #9aa39a;
+  --rule: #dde2db;
+  --accent: #2f6f5e;
+  --accent-soft: #e4eeea;
+  --stamp: #b3402e;
+  --stamp-soft: #f6e6e2;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --shadow-card: 0 1px 2px rgba(31, 36, 33, 0.04), 0 12px 32px -16px rgba(31, 36, 33, 0.18);
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--paper);
+  background-image: radial-gradient(circle at 1px 1px, rgba(31, 36, 33, 0.05) 1px, transparent 0);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ==========================================================================
+   Page shell
+   ========================================================================== */
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 56px 20px 80px;
+}
+
+.ledger {
+  width: 100%;
+  max-width: 620px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 40px 40px 32px;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+.ledger__header {
+  text-align: left;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 24px;
+}
+
+.ledger__eyebrow {
+  margin: 0 0 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ledger__title {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.ledger__date {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
+   Stats bar
+   ========================================================================== */
+.ledger__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.stat {
+  background: var(--paper);
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat__value {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.stat__label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
+   Task form (new entry line)
+   ========================================================================== */
+.task-form {
+  margin-bottom: 8px;
+}
+
+.task-form__field {
+  display: flex;
+  gap: 10px;
+}
+
+.task-form__input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--paper);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-form__input::placeholder {
+  color: var(--ink-faint);
+}
+
+.task-form__input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  background: var(--surface);
+}
+
+.task-form__input--error {
+  border-color: var(--stamp);
+}
+
+.task-form__input--error:focus {
+  box-shadow: 0 0 0 3px var(--stamp-soft);
+}
+
+.task-form__submit {
+  flex-shrink: 0;
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.task-form__submit:hover {
+  background: #33403a;
+}
+
+.task-form__submit:active {
+  transform: translateY(1px);
+}
+
+.task-form__error {
+  margin: 8px 2px 0;
+  font-size: 13px;
+  color: var(--stamp);
+}
+
+/* ==========================================================================
+   Task list
+   ========================================================================== */
+.task-list {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.task-list__empty {
+  margin-top: 24px;
+  padding: 40px 20px;
+  text-align: center;
+  border-top: 1px solid var(--rule);
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius-sm);
+}
+
+.task-list__empty-title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.task-list__empty-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
+   Task item (a single ledger line)
+   ========================================================================== */
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 2px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.task-item__check {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1.5px solid var(--ink-faint);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.task-item__check:hover {
+  border-color: var(--accent);
+}
+
+.task-item--done .task-item__check {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--surface);
+}
+
+.task-item__check-icon {
+  width: 13px;
+  height: 13px;
+}
+
+.task-item__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.task-item__text {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.task-item--done .task-item__text {
+  color: var(--ink-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-faint);
+}
+
+/* The signature element: a hand-stamped "Done" mark, like ink on a ledger */
+.task-item__stamp {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--stamp);
+  border: 1.5px solid var(--stamp);
+  border-radius: 3px;
+  padding: 1px 6px;
+  transform: rotate(-4deg);
+  user-select: none;
+}
+
+.task-item__edit-input {
+  flex: 1;
+  min-width: 160px;
+  padding: 8px 10px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--accent-soft);
+}
+
+.task-item__edit-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.task-item__edit-input--error {
+  border-color: var(--stamp);
+}
+
+.task-item__error {
+  width: 100%;
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--stamp);
+}
+
+.task-item__actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.task-item__action {
+  border: none;
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.task-item__action:hover:not(:disabled) {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.task-item__action:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.task-item__action--save {
+  color: var(--accent);
+}
+
+.task-item__action--delete:hover {
+  background: var(--stamp-soft);
+  color: var(--stamp);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 520px) {
+  .page {
+    padding: 28px 12px 56px;
+  }
+
+  .ledger {
+    padding: 28px 20px 24px;
+  }
+
+  .ledger__title {
+    font-size: 27px;
+  }
+
+  .task-form__field {
+    flex-direction: column;
+  }
+
+  .task-form__submit {
+    width: 100%;
+  }
+
+  .task-item {
+    flex-wrap: wrap;
+  }
+
+  .task-item__actions {
+    margin-left: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
